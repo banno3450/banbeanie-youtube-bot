@@ -28,7 +28,7 @@ def generate_post_content(video_info):
     try:
         client = genai.Client(api_key=GEMINI_API_KEY)
         prompt = f"YouTube動画「{video_info['title']}」の紹介文をX用に100文字以内で作成して。ハッシュタグ2つ付けて。URLは含めないで。"
-        response = client.models.generate_content(model='gemini-2.0-flash-lite', contents=prompt)
+        response = client.models.generate_content(model='gemini-1.5-flash', contents=prompt)
         return response.text.strip()
     except Exception as e:
         print(f"Error generating content: {e}")
