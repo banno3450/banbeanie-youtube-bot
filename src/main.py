@@ -26,7 +26,7 @@ def get_latest_video():
 
 def generate_post_content(video_info):
     genai.configure(api_key=GEMINI_API_KEY)
-    model = genai.GenerativeModel('gemini-1.5-flash-latest')
+    model = genai.GenerativeModel('gemini-1.5-flash-001')
     prompt = f"YouTube動画「{video_info['title']}」の紹介文をX用に100文字以内で作成して。ハッシュタグ2つ付けて。URLは含めないで。"
     return model.generate_content(prompt).text.strip()
 
