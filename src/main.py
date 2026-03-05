@@ -25,10 +25,14 @@ def get_latest_video():
     return {"id": v["id"]["videoId"], "title": v["snippet"]["title"], "description": v["snippet"]["description"], "url": f"https://www.youtube.com/watch?v={v['id']['videoId']}"}
 
 def generate_post_content(video_info):
-    client = genai.Client(api_key=GEMINI_API_KEY)
-    prompt = f"YouTube動画「{video_info['title']}」の紹介文をX用に100文字以内で作成して。ハッシュタグ2つ付けて。URLは含めないで。"
-    response = client.models.generate_content(model='gemini-2.0-flash-lite', contents=prompt)
-    return response.text.strip()
+    try:
+        client = genai.Client(api_key=GEMINI_API_KEY)
+        prompt = f"YouTube動画「{video_info['title']}」の紹介文をX用に100文字以内で作成して。ハッシュタグ2つ付けて。URLは含めないで。"
+        response = client.models.generate_content(model='gemini-1.5-flash', contents=prompt)
+        return response.text.strip()
+    except Exception as e:
+        print(f"Error generating content: {e}")
+        return f"新しい動画がアップロードされました！: {video_info['title']}"
 
 def post_to_x(content):
     client = tweepy.Client(consumer_key=X_API_KEY, consumer_secret=X_API_SECRET, access_token=X_ACCESS_TOKEN, access_token_secret=X_ACCESS_TOKEN_SECRET)
